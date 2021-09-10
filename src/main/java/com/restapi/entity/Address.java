@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -18,30 +19,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Builder
 @Setter
 @Getter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "Libreary" )
+@Table(name = "Address")
 @JsonIgnoreProperties(ignoreUnknown = false)
 @Proxy(lazy = false)
-public class Libreary {
+public class Address {
 	
-	@javax.persistence.Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer Id;
 	
-	@Column(name ="Book_Name")
-	private String bookName;
+	@Column(name = "First_Line")
+	private String firstLine;
+	
+	@Column(name = "State")
+	private String State;
+	
+	@Column(name = "Pin")
+	private Integer pin;
+	
+	@Column(name = "City")
+	private String city;
 	
 	@Column(name ="STUDENT_ID",length = 10)
 	private Integer studentId;
 	
-	@Column(name ="Date_of_Issue")
-	public LocalDate Date_of_Issue;
-	
-	
-
 }
