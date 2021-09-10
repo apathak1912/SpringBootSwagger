@@ -8,10 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Proxy;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +21,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "Libreary" )
-@JsonIgnoreProperties(ignoreUnknown = false)
-@Proxy(lazy = false)
 public class Libreary {
 	
 	@javax.persistence.Id
@@ -39,8 +33,8 @@ public class Libreary {
 	@Column(name ="STUDENT_ID",length = 10)
 	private Integer studentId;
 	
-	@Column(name ="Date_of_Issue")
-	public LocalDate Date_of_Issue;
+	@Column(name ="DOB")
+	public LocalDate DOB;
 	
 	
 

@@ -45,7 +45,6 @@ public class StudentDao {
 	public Student getStudentById(Integer id) {
 		try {
 			return reposetry.getStudentByID(id);
-			//return reposetry.getById(id);
 		} catch (NoResultException | EmptyResultDataAccessException e) {
 			return null;
 		} catch (DataAccessResourceFailureException | JpaSystemException e) {
