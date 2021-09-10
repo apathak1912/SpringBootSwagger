@@ -9,22 +9,22 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
 
-import com.restapi.entity.Student;
-import com.restapi.reposetry.StudentReposetry;
+import com.restapi.entity.Libreary;
+import com.restapi.reposetry.LibrearyReposetry;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class StudentDao {
+public class LibrearyDao {
 	
 	@Autowired
-	StudentReposetry reposetry;
+	LibrearyReposetry librearyRepo;
 	
-	public boolean persistStudent(Student student) {
+	public boolean saveLibreary(Libreary libreary) {
 		try {
-		Student savedStudent = reposetry.saveAndFlush(student);
-		return (savedStudent != null)?true:false;
+			Libreary lib = librearyRepo.saveAndFlush(libreary);
+			return (lib!= null)?true:false;
 		}catch (DataIntegrityViolationException | JpaSystemException e) {
 			//This exception thrown while insert or update the record when vilation of an integrity constraint
 			log.error("DataIntegrityViolationException "+e);
@@ -35,24 +35,11 @@ public class StudentDao {
 		} catch (DataAccessResourceFailureException e) {
 			log.error("DataAccessResourceFailureException "+e);
 			return false;
-		}
-		catch (Exception e) {
+		}catch(Exception e) {
+			log.error("Error while persisting Libreary Book issued "+e);
 			return false;
 		}
 		
-	}
-
-	public Student getStudentById(Integer id) {
-		try {
-			return reposetry.getStudentByID(id);
-			//return reposetry.getById(id);
-		} catch (NoResultException | EmptyResultDataAccessException e) {
-			return null;
-		} catch (DataAccessResourceFailureException | JpaSystemException e) {
-			return null;
-		} catch(Exception e) {
-			return null;
-		}
 	}
 
 }
