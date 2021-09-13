@@ -10,7 +10,7 @@ import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
 
 import com.restapi.entity.Student;
-import com.restapi.reposetry.StudentReposetry;
+import com.restapi.sql.reposetry.StudentReposetry;
 
 import lombok.extern.slf4j.Slf4j;
 

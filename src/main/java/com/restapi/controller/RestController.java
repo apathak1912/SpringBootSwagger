@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.restapi.customexception.StudentNotFoundException;
 import com.restapi.dto.LibrearyDTO;
 import com.restapi.dto.StudentDTO;
 import com.restapi.entity.Address;
@@ -90,8 +91,11 @@ public class RestController {
 	@GetMapping(value = "/getStudentDetails/studentId/{studentId}")
 	public ResponseEntity<Object> getStudentDetails(@PathVariable(name = "studentId") Integer id) {
 		StudentDTO student = studentService.getStudentById(id);
-		return (student != null) ? ResponseEntity.ok(student)
-				: ResponseEntity.ok(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+		if(student != null) {
+			return new ResponseEntity<Object>(student, HttpStatus.OK);
+		}else {
+			throw new StudentNotFoundException("IN GET STUDENT DETAILS");
+		}
 	}
 
 	@ResponseStatus
