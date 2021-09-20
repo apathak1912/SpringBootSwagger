@@ -1,5 +1,8 @@
 package com.restapi.serviceimpl;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,16 @@ public class LibrearyServiceImpl implements LibrearyService {
 			return false;
 		}
 		 
+	}
+
+	@Override
+	public boolean deletedIssuedBook(@Size @NotNull Integer studentId, String bookName) {
+		try {
+			return libdao.deleteIssuedBook(studentId,bookName);
+		}catch (Exception e) {
+			log.error("error in service class " +e);
+			return false;
+		}
 	}
 
 }

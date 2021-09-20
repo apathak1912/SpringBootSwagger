@@ -1,7 +1,10 @@
 package com.restapi.dao;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -35,8 +38,9 @@ public class StudentDao {
 		} catch (DataAccessResourceFailureException e) {
 			log.error("DataAccessResourceFailureException "+e);
 			return false;
-		}
+		} 
 		catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -45,6 +49,19 @@ public class StudentDao {
 	public Student getStudentById(Integer id) {
 		try {
 			return reposetry.getStudentByID(id);
+			//return reposetry.getById(id);
+		} catch (NoResultException | EmptyResultDataAccessException e) {
+			return null;
+		} catch (DataAccessResourceFailureException | JpaSystemException e) {
+			return null;
+		} catch(Exception e) {
+			return null;
+		}
+	}
+
+	public List<Student> getListOfStudents() {
+		try {
+			return reposetry.getListOfStudents();
 			//return reposetry.getById(id);
 		} catch (NoResultException | EmptyResultDataAccessException e) {
 			return null;

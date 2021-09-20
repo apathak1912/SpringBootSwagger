@@ -1,9 +1,8 @@
 package com.restapi.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.tomcat.jni.Library;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.restapi.customexception.NotAbleToDelete;
 import com.restapi.customexception.StudentNotFoundException;
 import com.restapi.dto.LibrearyDTO;
 import com.restapi.dto.StudentDTO;
 import com.restapi.entity.Address;
-import com.restapi.entity.CompositeStudent;
-import com.restapi.entity.Libreary;
 import com.restapi.entity.Student;
-import com.restapi.http.Response;
 import com.restapi.service.LibrearyService;
 import com.restapi.service.StudentService;
 
@@ -109,6 +106,41 @@ public class RestController {
 		return response ? ResponseEntity.ok(HttpStatus.ACCEPTED.toString())
 				: ResponseEntity.ok(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 
+	}
+	
+	@ResponseStatus
+	@ApiOperation(value = "This Api is used to get list of students" ,notes = "This Api is used to get list of students")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message ="Retrived List of Student SuccessFully ..."),
+			@ApiResponse(code = 404, message = "Student Details Not Found"),
+			@ApiResponse(code = 500, message = "Internol Server Error"),
+			@ApiResponse(code = 401, message = "UnAuthorised Access") 
+	})
+	@GetMapping(value = "/getAllStudents")
+	public ResponseEntity<List<StudentDTO>> listAllStudents(){
+		List<StudentDTO> students = studentService.getAllStudents();
+		if(students != null) {
+			return new ResponseEntity<List<StudentDTO>>(students, HttpStatus.OK);
+		}else {
+			throw new StudentNotFoundException("IN GET STUDENT DETAILS");
+		}
+	}
+	
+	@DeleteMapping(value ="/deleteIssuedBook/studentId/{studentId}/bookName/{bookname}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deleteIssuedBook(
+			@Valid
+			@NotNull
+			@PathVariable(name = "studentId") Integer studentId,
+			@PathVariable(name = "bookname")String bookName){
+		
+		boolean isDataDeleted = librearyService.deletedIssuedBook(studentId, bookName);
+		
+		if(isDataDeleted) {
+			return new ResponseEntity<String>("Deleted" ,HttpStatus.ACCEPTED);
+		}else {
+			 throw new NotAbleToDelete("FOR Librery..");
+		}
+		
 	}
 
 }

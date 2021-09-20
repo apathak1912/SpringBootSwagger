@@ -1,5 +1,8 @@
 package com.restapi.serviceimpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,16 @@ public class StudentServiceImpl implements StudentService {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public List<StudentDTO> getAllStudents() {
+		List<Student> students = studentdao.getListOfStudents();
+		List<StudentDTO> DTOS = new ArrayList<StudentDTO>();
+		for(Student student :students) {
+			DTOS.add(mapping.mapStudentToStudentDTO(student));	
+		}
+		return DTOS;
 	}
 
 }

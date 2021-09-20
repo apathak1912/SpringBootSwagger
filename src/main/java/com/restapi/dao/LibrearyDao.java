@@ -1,6 +1,8 @@
 package com.restapi.dao;
 
 import javax.persistence.NoResultException;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -37,6 +39,30 @@ public class LibrearyDao {
 			return false;
 		}catch(Exception e) {
 			log.error("Error while persisting Libreary Book issued "+e);
+			return false;
+		}
+		
+	}
+
+	public boolean deleteIssuedBook(@Size @NotNull Integer studentId, String bookName) {
+		try {
+			int result = librearyRepo.deleteIssuedBook(studentId, bookName);
+			if(result==0) {
+				return false;
+			}else {
+				return true;
+			}
+		} catch (DataIntegrityViolationException | JpaSystemException e) {
+			log.error("DataIntegrityViolationException " + e);
+			return false;
+		} catch (NoResultException | EmptyResultDataAccessException e) {
+			log.error("NoResultException " + e);
+			return false;
+		} catch (DataAccessResourceFailureException e) {
+			log.error("DataAccessResourceFailureException " + e);
+			return false;
+		} catch (Exception e) {
+			log.error("Error while Deleting Libreary Book issued " + e);
 			return false;
 		}
 		
