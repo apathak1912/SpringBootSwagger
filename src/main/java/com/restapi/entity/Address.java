@@ -49,4 +49,7 @@ public class Address {
 	@Column(name ="STUDENT_ID",length = 10)
 	private Integer studentId;
 	
+	@Column(name ="TEACHER_ID",length = 10)
+	private Integer teacherId;
+	
 }

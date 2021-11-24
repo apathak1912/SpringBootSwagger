@@ -22,35 +22,32 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory",
-							transactionManagerRef = "transactionManager",
-							basePackages = { "com.restapi.sql.reposetry" })
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager", basePackages = {
+		"com.restapi.sql.reposetry" })
 public class SQLServerConfig {
-	
+
 	@Autowired
 	Environment env;
 
 	@Primary
 	@Bean(name = "dataSource")
-	//@ConfigurationProperties(prefix = "spring.datasource")
+	// @ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource dataSource() {
-		return DataSourceBuilder.create()
-				 .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
-		         .url("jdbc:sqlserver://localhost:1433;databaseName=test")
-		         .username("root")
-		         .password("root").build();
-		/*We need to check by this way...
-		 * return DataSourceBuilder.create()
-				.driverClassName(env.getProperty("sqlserver-db.driver"))
-				.url(env.getProperty("sqlserver-db.url"))
-				.username(env.getProperty("sqlserver-db.username"))
-				.password(env.getProperty("sqlserver-db.password"))
-		        .build();*/
+		return DataSourceBuilder.create().driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+				.url("jdbc:sqlserver://localhost:1433;databaseName=test").username("root").password("root").build();
+		/*
+		 * We need to check by this way... return DataSourceBuilder.create()
+		 * .driverClassName(env.getProperty("sqlserver-db.driver"))
+		 * .url(env.getProperty("sqlserver-db.url"))
+		 * .username(env.getProperty("sqlserver-db.username"))
+		 * .password(env.getProperty("sqlserver-db.password")) .build();
+		 */
 	}
 
 	@Primary
 	@Bean(name = "entityManagerFactory")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,	@Qualifier("dataSource") DataSource dataSource) {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
+			@Qualifier("dataSource") DataSource dataSource) {
 
 		LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = builder.dataSource(dataSource)
 				.packages("com.restapi.entity").persistenceUnit("SQLServer").build();
