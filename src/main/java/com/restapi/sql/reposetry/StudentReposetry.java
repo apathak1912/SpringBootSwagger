@@ -10,10 +10,10 @@ import com.restapi.entity.Student;
 
 public interface StudentReposetry extends JpaRepository<Student, Integer>{
 	
-	@Query(value = "Select * from Student2 where student_id = :ID",nativeQuery = true)
+	@Query(value = "Select * from Student where student_id = :ID",nativeQuery = true)
 	Student getStudentByID(@Param("ID")Integer ID);
 
-	@Query(value = "Select * from Student2" ,nativeQuery = true)
+	@Query(value = "Select * from Student" ,nativeQuery = true)
 	List<Student> getListOfStudents();
 
 }

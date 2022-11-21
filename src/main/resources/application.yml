@@ -1,0 +1,23 @@
+server:
+    error:
+        include-message: always
+    port: 8081
+
+datasource:
+    driver: com.mysql.cj.jdbc.Driver
+    dialect: org.hibernate.dialect.MySQL8Dialect
+    url: jdbc:mysql://localhost:3306/test
+    password: root
+    username: root
+    ddl-auto: update
+    show-sql: true
+
+spring:
+   # jpa.hibernate.ddl-auto: update
+    banner:
+        location: banner.txt
+
+
+logging:
+    level:
+        org.springframework.web: DEBUG
